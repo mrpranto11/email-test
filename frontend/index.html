@@ -24,7 +24,7 @@
       const formData = new FormData(e.target);
       const data = Object.fromEntries(formData.entries());
 
-      const res = await fetch("https://YOUR_BACKEND_URL/send", {
+      const res = await fetch("https://email-test-6au1.onrender.com/send", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(data)
