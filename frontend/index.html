@@ -1,75 +1,84 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Contact Form</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      background: #f8f9fa;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      height: 100vh;
-    }
-    form {
-      background: white;
-      padding: 20px 25px;
-      border-radius: 10px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
-      width: 320px;
-    }
-    input, textarea, button {
-      width: 100%;
-      margin-bottom: 12px;
-      padding: 8px;
-      font-size: 15px;
-    }
-    button {
-      background: #007bff;
-      color: white;
-      border: none;
-      cursor: pointer;
-      border-radius: 5px;
-    }
-    button:hover {
-      background: #0056b3;
-    }
-    #response {
-      margin-top: 10px;
-      color: green;
-      font-weight: bold;
-    }
-  </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contact | 1000XAi</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="contact.css">
 </head>
+
 <body>
-  <h2>Contact Me</h2>
-  <form id="contactForm">
-    <input type="text" name="name" placeholder="Your Name" required />
-    <input type="email" name="email" placeholder="Your Email" required />
-    <textarea name="message" placeholder="Your Message" required></textarea>
-    <button type="submit">Send Message</button>
-  </form>
-  <p id="response"></p>
+  <!-- CONTACT SECTION -->
+  <section id="contact-page" class="section">
+    <div class="content-fit">
+      <div class="page-title">
+        <h1>Get in Touch</h1>
+        <p>We’d love to hear from you.</p>
+      </div>
 
+      <div class="contact-grid">
+
+        <!-- Contact Form -->
+        <div class="contact-form">
+          <form id="contactForm">
+            <label>Name</label>
+            <input type="text" id="name" placeholder="Your name" required>
+
+            <label>Email</label>
+            <input type="email" id="email" placeholder="Your email" required>
+
+            <label>Message</label>
+            <textarea id="message" rows="5" placeholder="Your message..." required></textarea>
+
+            <button type="submit">Send Message</button>
+          </form>
+
+          <div id="response"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- JS FOR SENDING MAIL -->
   <script>
-    document.getElementById("contactForm").addEventListener("submit", async (e) => {
+    document.getElementById("contactForm").addEventListener("submit", async function (e) {
       e.preventDefault();
-      const formData = new FormData(e.target);
-      const data = Object.fromEntries(formData.entries());
 
-      // 👇 Backend API URL added here
-      const res = await fetch("https://email-test-6au1.onrender.com/send", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(data)
-      });
+      const name = document.getElementById("name").value;
+      const email = document.getElementById("email").value;
+      const message = document.getElementById("message").value;
 
-      const result = await res.json();
-      document.getElementById("response").innerText = result.message;
+      const subject = `New Message From ${name}`;
+      const responseBox = document.getElementById("response");
+
+      responseBox.innerHTML = "Sending... ⏳";
+
+      try {
+        const res = await fetch("http://localhost:5000/send", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            email: email,
+            name: name,
+            message: message
+          })
+        });
+
+        const data = await res.json();
+
+        if (data.success) {
+          responseBox.innerHTML = `<span style="color:green;">✔ ${data.msg}</span>`;
+        } else {
+          responseBox.innerHTML = `<span style="color:red;">❌ ${data.msg}</span>`;
+        }
+
+      } catch (err) {
+        responseBox.innerHTML = `<span style="color:red;">Error sending message</span>`;
+      }
     });
   </script>
+
 </body>
 </html>
