@@ -1,0 +1,88 @@
+/* contact.css - page specific styles for contact.html */
+
+/* Layout grid */
+.contact-grid{
+  display:grid;
+  grid-template-columns: 1fr 1fr;
+  gap:var(--gap);
+  align-items:start;
+  margin-top:20px;
+}
+
+/* contact info panel */
+.contact-info{
+  min-height:260px;
+  padding:20px;
+  border-radius:var(--radius);
+  background: linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.02));
+  border:1px solid rgba(255,255,255,0.03);
+}
+.contact-info table{
+  width:100%;
+  border-collapse:collapse;
+  font-size:15px;
+}
+.contact-info td{
+  padding:10px 6px;
+  vertical-align:top;
+  color:var(--muted);
+}
+.contact-info td:first-child{
+  color:var(--white);
+  width:28%;
+  font-weight:600;
+}
+
+/* Contact form panel */
+.contact-form{
+  padding:20px;
+  border-radius:var(--radius);
+  background: linear-gradient(180deg, rgba(255,255,255,0.015), rgba(255,255,255,0.01));
+  border:1px solid rgba(255,255,255,0.03);
+}
+
+/* form layout */
+#contactForm{
+  display:flex;
+  flex-direction:column;
+  gap:14px;
+}
+#contactForm label{
+  font-size:13px;
+  color:var(--muted);
+}
+#contactForm input[type="text"],
+#contactForm input[type="email"],
+#contactForm textarea{
+  font-size:14px;
+}
+
+/* submit area */
+#contactForm button{
+  margin-top:6px;
+  width:fit-content;
+}
+
+/* response box */
+#response{
+  margin-top:12px;
+  font-size:14px;
+}
+
+/* small screens */
+@media (max-width:900px){
+  .contact-grid{
+    grid-template-columns: 1fr;
+  }
+  .contact-info{
+    order:2;
+  }
+  .contact-form{
+    order:1;
+  }
+}
+
+/* Tiny polish */
+.contact-form input::placeholder, .contact-form textarea::placeholder{
+  color:rgba(255,255,255,0.35);
+}
